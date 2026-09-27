@@ -25,7 +25,15 @@
 - 国際薬膳師による監修・試作、法的な個別適合確認は未実施。
 - 認証、課金、オフライン動作、端末間同期は対象外。
 - 節気の日付は目安。正確な天文学的計算は未実装。
-- GitHubへのコミット・pushとPagesの有効化は、公開の明示的な承認後に実施する。
+- GitHubへのコミット・pushとPagesの有効化は、2026-09-27に利用者の承認を受けて実施済み。
+
+## 公開結果
+
+- 実装コミット：`e5c0b871248ffe3feb7ce09e8940f109b77f476c`。
+- 配信URL：https://hirohgxx.github.io/yakuzen-app/
+- GitHub Actionsのビルド・テスト・配信が成功。公開URLでホーム画面をブラウザ確認済み。
+- 初回配信：[Deploy GitHub Pages / 36305926090](https://github.com/hiroHGxx/yakuzen-app/actions/runs/36305926090)。
+- 公開名とGitHubのnoreplyメールを用い、個人ホーム名・秘密・画像メタデータの走査後にpushした。
 
 ## 公開用素材
 

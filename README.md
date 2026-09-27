@@ -38,7 +38,7 @@ npx playwright test --config playwright.pages.config.ts
 
 `.github/workflows/pages.yml`を用意しています。GitHubのリポジトリ設定で **Settings → Pages → Source: GitHub Actions** を選択すると、`main`へのpushでテスト、ビルド、Pages配信を行います。
 
-想定URL：`https://hiroHGxx.github.io/yakuzen-app/`（公開完了までは利用できません）。
+公開URL：[季の膳](https://hirohgxx.github.io/yakuzen-app/)（2026-09-27 公開プレビュー配信開始）。
 
 `base: './'`とハッシュによる画面切り替えを使用し、`/yakuzen-app/`のようなサブディレクトリ配信に対応しています。外部サービスのAPIキーやビルド用の秘密は不要です。`.env`、ローカル検査画像、node_modules、distはGit対象外です。
 
