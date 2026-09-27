@@ -4,7 +4,7 @@ test('home renders all photography without horizontal page overflow', async ({ p
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('./');
-  await expect(page.getByRole('heading', { name: /季節をひとさじ、\s*わたしの食卓へ。/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /いまのわたしに、\s*今日のひと皿。/ })).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   await expect.poll(() => page.locator('img').evaluateAll(images => images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -94,6 +94,7 @@ test('narrow mobile and tablet layouts keep every screen within the viewport', a
     for (const route of ['today', 'recipes', 'learn', 'notebook']) {
       await page.goto(`./#${route}`);
       await expect(page.locator('main h1')).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} at ${width}px`).toBe(true);
     }
   }

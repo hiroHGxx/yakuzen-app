@@ -1,0 +1,50 @@
+import { expect, test } from '@playwright/test';
+
+test('feelings connect explanation, recipes and optional filters without storing a feeling', async ({ page }, testInfo) => {
+  await page.goto('./');
+  await expect(page.locator('.theme-result')).toHaveCount(0);
+  await page.getByRole('button', { name: /冷えが気になる/ }).click();
+  await expect(page.getByRole('heading', { name: '今日は、温かいひと皿から。' })).toBeVisible();
+  await expect(page.locator('.theme-result .recipe-card')).toHaveCount(2);
+  await page.locator('.theme-reading summary').click();
+  await expect(page.getByRole('link', { name: /東京医科大学病院/ })).toBeVisible();
+  await page.evaluate(() => document.fonts.ready);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `.local/screenshots/${testInfo.project.name}-feeling.png`, fullPage: true });
+  await page.getByRole('button', { name: 'れんこんと鶏肉のやさしいスープのレシピを見る' }).click();
+  await expect(page.getByRole('dialog').locator('.recipe-context')).toContainText('料理の温度と風味');
+  await page.getByRole('button', { name: '閉じる', exact: true }).click();
+  await page.getByRole('button', { name: 'この中から食材・時間で絞る' }).click();
+  await expect(page.locator('.recipe-card')).toHaveCount(2);
+  await page.getByRole('textbox', { name: 'レシピや食材を検索' }).fill('かぼちゃ');
+  await expect(page.locator('.recipe-card')).toHaveCount(1);
+  await page.getByRole('checkbox', { name: '15分以内' }).check();
+  await expect(page.locator('.empty-state')).toBeVisible();
+  await page.getByRole('button', { name: 'すべてのレシピを見る', exact: true }).click();
+  await expect(page.locator('.recipe-card')).toHaveCount(6);
+  await page.goto('./#today');
+  await page.getByRole('button', { name: /食欲がわかない/ }).click();
+  await expect(page.getByRole('heading', { name: '量よりも、いま食べたい形を。' })).toBeVisible();
+  await page.getByRole('button', { name: /気持ちが張りつめている/ }).click();
+  await expect(page.getByRole('heading', { name: '食卓に、小さな余白を。' })).toBeVisible();
+  const stored = await page.evaluate(() => JSON.stringify({ ...localStorage }));
+  expect(stored).not.toMatch(/warmth|appetite|pause|冷え|食欲|張りつめ/);
+  await page.reload();
+  await expect(page.locator('.theme-result')).toHaveCount(0);
+});
+
+test('ingredient and seasonal entries work without selecting a feeling and clear theme filters', async ({ page }) => {
+  await page.goto('./');
+  await page.getByRole('textbox', { name: '家にある食材' }).fill('梨');
+  await page.getByRole('button', { name: '家にある食材で探す' }).click();
+  await expect(page.locator('.recipe-card')).toHaveCount(1);
+  await expect(page.locator('.recipe-card')).toContainText('コンポート');
+  await page.goto('./#today');
+  await page.getByRole('button', { name: /冷えが気になる/ }).click();
+  await page.getByRole('button', { name: 'この中から食材・時間で絞る' }).click();
+  await page.goto('./#today');
+  await page.getByRole('button', { name: /季節のおいしさから/ }).click();
+  await expect(page.locator('.theme-filter-banner')).toHaveCount(0);
+  await expect(page.getByRole('checkbox', { name: /のおすすめ/ })).toBeChecked();
+  await expect(page.locator('.recipe-card').first()).toBeVisible();
+});
