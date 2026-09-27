@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, CheckCheck, Clock3, CloudSun, CookingPot, Flower2, Heart, Minus, Plus, Search, ShoppingBasket, SlidersHorizontal, Sprout, Sun, Trash2, Utensils, Wheat, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, CheckCheck, Clock3, CloudSun, CookingPot, Flower2, Heart, Search, ShoppingBasket, SlidersHorizontal, Sprout, Sun, Trash2, Wheat, X } from 'lucide-react';
+import { RecipeDetail } from './RecipeDetail';
 import { Today, ThemeReading } from './Today';
 import { feelingThemes, type FeelingTheme } from './themes';
 import { asset, foodEntries, lessons, quiz, recipes, type Recipe } from './data';
-import { addIngredients, emptyNotebook, filterRecipes, formatAmount, getSeasonalTerm, readNotebook, seasonalTerms, storageKey, todayISO, type Notebook } from './lib';
+import { emptyNotebook, filterRecipes, formatAmount, getSeasonalTerm, readNotebook, seasonalTerms, storageKey, type Notebook } from './lib';
 
 type Page = 'today' | 'recipes' | 'learn' | 'notebook';
 type LearnTab = '読みもの' | '食材辞典' | '季節の暦' | 'クイズ';
@@ -53,27 +54,6 @@ function RecipeCard({ recipe, saved, onSave, onOpen }: { recipe: Recipe; saved: 
   </article>;
 }
 
-function RecipeDetail({ recipe, notebook, update, onSave, onNotify, onFood }: { recipe: Recipe; notebook: Notebook; update: (updater: (value: Notebook) => Notebook) => void; onSave: () => void; onNotify: (message: string) => void; onFood: (index: number) => void }) {
-  const [servings, setServings] = useState(2);
-  const [finished, setFinished] = useState<number[]>([]);
-  const saved = notebook.saved.includes(recipe.id);
-  const cooked = notebook.cooked.some(entry => entry.recipeId === recipe.id && entry.date === todayISO());
-  return <>
-    <img className="detail-photo" src={asset(recipe.image)} alt={recipe.title.replace('\n', '')}/>
-    <div className="detail-body"><div className="eyebrow">SEASONAL RECIPE <span>季節のひと皿</span></div><h2>{recipe.title.replace('\n', '')}</h2><p className="detail-subtitle">{recipe.subtitle}</p>
-      <div className="detail-meta"><span><Clock3 size={16}/>{recipe.minutes}分</span><span><Utensils size={16}/>{recipe.category}</span><button className={`text-button ${saved ? 'active' : ''}`} onClick={onSave}><Bookmark size={17} fill={saved ? 'currentColor' : 'none'}/>{saved ? '保存済み' : '手帖に保存'}</button></div>
-      <div className="ingredient-heading"><h3>材料</h3><div className="stepper"><button aria-label="人数を減らす" disabled={servings === 1} onClick={() => setServings(value => value - 1)}><Minus size={15}/></button><span>{servings}人分</span><button aria-label="人数を増やす" disabled={servings === 6} onClick={() => setServings(value => value + 1)}><Plus size={15}/></button></div></div>
-      <ul className="ingredient-list">{recipe.ingredients.map(ingredient => <li key={ingredient.name}><span>{ingredient.name}</span><span>{formatAmount(ingredient.amount * servings / 2)} {ingredient.unit}</span></li>)}</ul>
-      <button className="button button-outline full-width" onClick={() => { update(value => ({ ...value, shopping: addIngredients(value.shopping, recipe, servings) })); onNotify(`${servings}人分の材料を買い物リストに追加しました`); }}><ShoppingBasket size={17}/>買い物リストに追加</button>
-      <p className="small-note">同じレシピを追加すると、選んだ人数分で更新します。調味料や水など、家にあるものはリストから削除できます。</p>
-      <h3 className="method-heading">つくり方</h3><ol className="method-list">{recipe.steps.map((step, index) => <li className={finished.includes(index) ? 'completed' : ''} key={step}><button aria-label={`手順${index + 1}を${finished.includes(index) ? '未完了' : '完了'}にする`} aria-pressed={finished.includes(index)} onClick={() => setFinished(value => value.includes(index) ? value.filter(item => item !== index) : [...value, index])}>{finished.includes(index) ? <Check size={17}/> : String(index + 1).padStart(2, '0')}</button><p>{step}</p></li>)}</ol>
-      <aside className="recipe-note"><Sprout size={24}/><div><h4>台所の小さな知恵</h4><p>{recipe.note}</p></div></aside>
-      <button className={`button full-width ${cooked ? 'button-outline' : ''}`} disabled={cooked} onClick={() => { update(value => ({ ...value, cooked: [...value.cooked, { recipeId: recipe.id, date: todayISO() }] })); onNotify('今日の「つくった」を手帖に記録しました'); }}><CheckCheck size={18}/>{cooked ? '今日の「つくった」を記録済み' : '今日つくった、と記録する'}</button>
-      <h3 className="method-heading">この食材を、もう少し知る</h3><div className="chip-row">{foodEntries.map((food, index) => recipe.ingredients.some(ingredient => ingredient.name.includes(food.name)) && <button key={food.name} className="chip" onClick={() => onFood(index)}>{food.name}<ArrowUpRight size={14}/></button>)}</div>
-      <div className="detail-disclaimer"><p>アレルゲンの目安：{recipe.allergens.length ? recipe.allergens.join('・') : '指定材料に主要なアレルゲンの記載なし'}。網羅的な表示ではありません。だしや調味料を含め、使用する商品の表示を必ず確認してください。</p><p>レシピは監修・試作確認前のプレビューです。人数による分量変更は単純換算です。炊飯器の容量や加熱状態に合わせて調整してください。写真はAI生成のイメージです。</p></div>
-    </div>
-  </>;
-}
 
 function QuizPanel() {
   const [index, setIndex] = useState(0);

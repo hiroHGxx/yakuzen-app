@@ -1,0 +1,69 @@
+/* A quiet recipe journal, followed by a focused kitchen view. */
+.recipe-cover{position:relative;isolation:isolate;background:#d9d9c8}
+.recipe-cover .detail-photo{height:350px;width:100%;object-fit:cover}
+.recipe-cover:after{content:'';position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#20281bd9);z-index:0;pointer-events:none}
+.recipe-cover-label,.recipe-cover-season{position:absolute;z-index:1;color:#fff;bottom:28px}
+.recipe-cover-label{left:36px;font-size:9px;letter-spacing:.18em}
+.recipe-cover-season{right:36px;font-family:var(--serif);font-size:16px;letter-spacing:.13em}
+.recipe-story{padding:0 0 28px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.recipe-story>p{font-family:var(--serif);font-size:16px;line-height:2.2;margin-top:15px;color:#536047}
+.recipe-story>div{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.recipe-story>div>span{font-size:11px;padding:6px 12px;background:#edf0e5;border-radius:20px;color:#62714f}
+.cooking-invitation{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:24px;background:#e9eddf;border:1px solid #d8dfc9;border-radius:8px;margin-bottom:34px}
+.cooking-invitation h3{font-family:var(--serif);font-size:21px;font-weight:400;margin:9px 0}
+.cooking-invitation p{font-size:11px;line-height:1.9;color:#667259}
+.cooking-invitation .button{gap:12px;flex-shrink:0;padding:14px 17px}
+.ingredient-help{display:flex;justify-content:space-between;font-size:11px;color:#727c66;margin-top:16px}
+.ingredient-help span{letter-spacing:.1em}
+.preparation-list li{padding:0!important}
+.preparation-list label{display:flex;align-items:center;gap:12px;width:100%;padding:15px 3px;cursor:pointer;line-height:1.7}
+.preparation-list input{flex-shrink:0;margin:0}
+.preparation-list label>span:last-child{margin-left:auto;text-align:right;flex-shrink:0;max-width:45%;color:#69755c}
+.preparation-list .prepared label>span{color:#818773;text-decoration:line-through;text-decoration-color:#b2bba5}
+.detail-body .stepper button{width:36px;height:36px}
+.detail-body .method-list button{width:44px;height:44px}
+.cooking-view{padding:28px 42px 34px;min-height:620px;background:radial-gradient(ellipse at 100% 10%,#e9eddf 0,transparent 45%),var(--paper)}
+.cooking-top{display:flex;align-items:center;justify-content:space-between;padding-right:35px;gap:12px}
+.cooking-top>span{font-size:12px;color:#6b765d;white-space:nowrap}
+.cooking-recipe-name{font-family:var(--serif);font-size:17px;line-height:1.8;margin:26px 0 24px;color:#67735b}
+.cooking-progress{display:flex;gap:8px;margin:0 0 37px}
+.cooking-progress button{min-height:44px;flex:1;border:1px solid #d4dbc7;border-radius:4px;background:#f5f6ee;display:flex;align-items:center;justify-content:center;font-size:12px;color:#62714f}
+.cooking-progress button[aria-current=step]{border:2px solid var(--olive);background:#e4ead7;font-weight:500}
+.cooking-progress button.done{background:#5b694b;color:white}
+.cooking-step h2,.cooking-finish h2{font-family:var(--serif);font-weight:400;font-size:29px;line-height:1.8;letter-spacing:.025em;margin:14px 0 23px;scroll-margin-top:30px}
+.cooking-step>p{font-size:21px;line-height:2.1;letter-spacing:.025em;min-height:190px;color:#3f4b34}
+.cooking-ingredients{margin:24px 0;border-top:1px solid #dce1d3;border-bottom:1px solid #dce1d3}
+.cooking-ingredients summary{cursor:pointer;padding:19px 0;font-size:13px;min-height:54px}
+.cooking-ingredients summary span{float:right;color:#78846a;font-size:12px}
+.cooking-ingredients .ingredient-list{margin:0 0 18px}
+.cooking-actions{display:flex;gap:12px}
+.cooking-actions>.button{gap:10px;min-height:56px}
+.cooking-actions>.button:last-child{flex:1}
+.cooking-next{margin-top:28px;color:#7c866f;font-size:11px;line-height:1.9}
+.cooking-next span{display:block;margin-top:7px;font-size:13px;color:#68745b}
+.cooking-footnote{margin-top:30px;font-size:11px;line-height:1.9}
+.cooking-finish{text-align:center;padding:0 0 12px}
+.cooking-finish>svg{margin:4px auto 25px;color:#7a8b64}
+.cooking-finish>.eyebrow{display:block}
+.cooking-finish>p{font-size:14px;line-height:2.1;color:#6d795f;margin-bottom:28px}
+.cooking-finish>.text-button{margin-top:20px}
+@media(max-width:760px){
+ .recipe-cover .detail-photo{height:270px}
+ .recipe-cover-label{left:22px;bottom:22px;font-size:8px;max-width:50%;line-height:1.8}
+ .recipe-cover-season{right:22px;bottom:22px;font-size:14px}
+ .recipe-story>p{font-size:15px;line-height:2.1}
+ .cooking-invitation{display:block;padding:22px;margin-bottom:27px}
+ .cooking-invitation>.button{width:100%;margin-top:18px;gap:14px}
+ .cooking-invitation h3{font-size:22px}
+ .cooking-view{padding:24px 23px 28px;min-height:0}
+ .cooking-top{padding-right:30px}
+ .cooking-top .text-button{font-size:11px;gap:6px;white-space:normal}
+ .cooking-recipe-name{font-size:16px;margin:24px 0 19px}
+ .cooking-progress{margin-bottom:28px}
+ .cooking-step h2,.cooking-finish h2{font-size:23px;margin-bottom:20px}
+ .cooking-step>p{font-size:19px;line-height:2;min-height:170px}
+ .cooking-actions>.button{font-size:12px;padding:13px 12px;gap:7px}
+ .cooking-finish h2{font-size:22px}
+ .cooking-finish .button{font-size:12px;gap:8px;padding:14px 10px}
+}
+@media(prefers-reduced-motion:no-preference){.cooking-step,.cooking-finish{animation:page-in .25s ease-out}}
