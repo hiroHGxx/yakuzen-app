@@ -15,7 +15,9 @@ test('home renders all photography without horizontal page overflow', async ({ p
 test('recipe search, servings, saved recipes, shopping and cooked history persist', async ({ page }, testInfo) => {
   await page.goto('./#recipes');
   await page.evaluate(() => document.fonts.ready);
-  await expect.poll(() => page.locator('img').evaluateAll(images => images.length === 12 && images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
+  for (const image of await page.locator('.recipe-card img').all()) await image.scrollIntoViewIfNeeded();
+  await page.evaluate(()=>window.scrollTo(0,0));
+  await expect.poll(() => page.locator('img').evaluateAll(images => images.length === 24 && images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
   await page.screenshot({ path: `.local/screenshots/${testInfo.project.name}-recipes.png`, fullPage: true, animations: 'disabled' });
   await page.getByRole('textbox', { name: 'レシピや食材を検索' }).fill('れんこん 鶏肉');
   await expect(page.locator('.recipe-card')).toHaveCount(1);
@@ -56,9 +58,9 @@ test('filter empty state can recover and dictionary links to matching recipes', 
   await page.getByRole('textbox', { name: 'レシピや食材を検索' }).fill('存在しない食材');
   await expect(page.locator('.recipe-card')).toHaveCount(0);
   await page.getByRole('button', { name: 'すべてのレシピを見る' }).click();
-  await expect(page.locator('.recipe-card')).toHaveCount(12);
+  await expect(page.locator('.recipe-card')).toHaveCount(24);
   await page.getByRole('checkbox', { name: '15分以内' }).check();
-  await expect(page.locator('.recipe-card')).toHaveCount(6);
+  await expect(page.locator('.recipe-card')).toHaveCount(10);
   await page.goto('./#learn');
   await page.getByRole('tab', { name: '食材辞典' }).click();
   await page.getByRole('textbox', { name: '食材辞典を検索' }).fill('なし');

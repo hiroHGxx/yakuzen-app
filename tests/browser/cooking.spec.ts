@@ -59,10 +59,10 @@ test('jumping to the last step does not skip unfinished steps; reopening preserv
   await expect(dialog.getByRole('button', { name: '手順3を未完了にする' })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('all twelve recipes fit narrow screens in detail and cooking views', async ({ page }) => {
+test('all twenty-four recipes fit narrow screens in detail and cooking views', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('./#recipes');
-  for (let index = 0; index < 12; index++) {
+  for (let index = 0; index < 24; index++) {
     await page.locator('.photo-link').nth(index).click();
     const dialog = page.getByRole('dialog');
     await page.evaluate(() => document.fonts.ready);

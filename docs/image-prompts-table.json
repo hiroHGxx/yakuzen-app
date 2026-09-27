@@ -1,0 +1,74 @@
+[
+  {
+    "id": "chicken-ginger",
+    "tool": "built-in image_gen",
+    "file": "public/images/chicken-ginger.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese ginger glazed chicken thigh chunks with cooked sliced onions. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "salmon-steam",
+    "tool": "built-in image_gen",
+    "file": "public/images/salmon-steam.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese steamed salmon fillet on cabbage with shimeji mushrooms in opened foil. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "pork-cabbage",
+    "tool": "built-in image_gen",
+    "file": "public/images/pork-cabbage.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese thin pork slices and cabbage steamed together, ginger strips. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "tofu-steak",
+    "tool": "built-in image_gen",
+    "file": "public/images/tofu-steak.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese golden pan fried rectangular tofu with shimeji mushroom light brown sauce. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "mackerel-tomato",
+    "tool": "built-in image_gen",
+    "file": "public/images/mackerel-tomato.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese canned mackerel simmered in fresh chunky tomatoes and onions. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "chicken-daikon",
+    "tool": "built-in image_gen",
+    "file": "public/images/chicken-daikon.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese chicken thigh and thick daikon radish simmered in light soy broth. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "broccoli-sesame",
+    "tool": "built-in image_gen",
+    "file": "public/images/broccoli-sesame.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese boiled broccoli with ground sesame dressing. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "daikon-vinegar",
+    "tool": "built-in image_gen",
+    "file": "public/images/daikon-vinegar.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese thin julienne white daikon and orange carrot sweet vinegar salad. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "pumpkin-simmer",
+    "tool": "built-in image_gen",
+    "file": "public/images/pumpkin-simmer.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese large kabocha pumpkin cubes with green skin simmered in soy broth. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "komatsuna-mushroom",
+    "tool": "built-in image_gen",
+    "file": "public/images/komatsuna-mushroom.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese cooked komatsuna leafy greens and shimeji mushrooms in light dashi. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "corn-rice",
+    "tool": "built-in image_gen",
+    "file": "public/images/corn-rice.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese white rice with yellow sweetcorn kernels in a rice bowl. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  },
+  {
+    "id": "daikon-miso",
+    "tool": "built-in image_gen",
+    "file": "public/images/daikon-miso.webp",
+    "prompt": "Editorial food photography for Japanese seasonal cooking app. One dish only: Japanese miso soup with thin white daikon slices and chopped komatsuna greens. Warm natural window light, ivory textured ceramic bowl or plate on pale linen, restrained olive and cream palette, photorealistic ingredients, appetizing home cooking, three-quarter overhead composition, landscape 3:2 image, dish fully in frame, no writing, no logos, no humans, no unnecessary garnish."
+  }
+]

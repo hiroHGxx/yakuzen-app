@@ -127,6 +127,7 @@ test('backup export, preview, cancellation, rejection and restore preserve all p
  notebook.shopping=[{id:'x',recipeId:'custom',name:'お茶',amount:2,unit:'袋',checked:true}];
  notebook.drafts={'lotus-soup':{servings:4,prepared:['生姜'],finished:[0],step:1,updatedAt:1}};
  notebook.timer={durationMs:60000,remainingMs:20000,endsAt:null};
+ notebook.meals=[{id:'meal-1',name:'復元する献立',recipeIds:['lotus-soup'],servings:3}];notebook.learning={nature:{saved:true,read:true,note:'復元する学び'}};
  await page.goto('./#notebook');
  const input=page.getByLabel('手帖のバックアップファイル');
  await input.setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(backupJSON(notebook))});

@@ -21,7 +21,7 @@ test('feelings connect explanation, recipes and optional filters without storing
   await page.getByRole('checkbox', { name: '15分以内' }).check();
   await expect(page.locator('.empty-state')).toBeVisible();
   await page.getByRole('button', { name: 'すべてのレシピを見る', exact: true }).click();
-  await expect(page.locator('.recipe-card')).toHaveCount(12);
+  await expect(page.locator('.recipe-card')).toHaveCount(24);
   await page.goto('./#today');
   await page.getByRole('button', { name: /食欲がわかない/ }).click();
   await expect(page.getByRole('heading', { name: '量よりも、いま食べたい形を。' })).toBeVisible();

@@ -22,7 +22,7 @@ test('all notebook data survives export and import; malformed backups fail witho
  const invalid=JSON.parse(backupJSON(notebook)); invalid.data.cooked[0].date='2026-02-30';
  assert.throws(()=>parseBackup(JSON.stringify(invalid)));
  assert.throws(()=>parseBackup('{broken')); assert.throws(()=>parseBackup(JSON.stringify({app:'other',version:2,data:notebook})));
- const future=JSON.parse(backupJSON(notebook));future.version=3;assert.throws(()=>parseBackup(JSON.stringify(future)));
+ const future=JSON.parse(backupJSON(notebook));future.version=4;assert.throws(()=>parseBackup(JSON.stringify(future)));
  const wrong=JSON.parse(backupJSON(notebook));wrong.data.timer.durationMs=-1;assert.throws(()=>parseBackup(JSON.stringify(wrong)));
 });
 test('shopping combines matching names and units while retaining all sources and partial purchased state',()=>{
@@ -42,7 +42,7 @@ test('timer uses the deadline across page reloads and respects pause',()=>{
  assert.equal(timerRemaining({durationMs:60000,remainingMs:60000,endsAt:90000},100000),0);
 });
 test('expanded catalog has complete recipes, distinct photos and searchable dictionary ingredients',()=>{
- assert.equal(recipes.length,12);assert.equal(foodEntries.length,16);assert.equal(new Set(ids).size,12);assert.equal(new Set(recipes.map(recipe=>recipe.image)).size,12);
+ assert.equal(recipes.length,24);assert.equal(foodEntries.length,16);assert.equal(new Set(ids).size,24);assert.equal(new Set(recipes.map(recipe=>recipe.image)).size,24);
  for (const recipe of recipes) {assert.ok(recipe.steps.length>=3);assert.ok(recipe.ingredients.length>=4);assert.ok(existsSync(`public/images/${recipe.image}.webp`));assert.ok(recipe.ingredients.every(item=>item.amount>0));}
  for(const food of foodEntries) assert.ok(recipes.some(recipe=>recipe.ingredients.some(item=>item.name.includes(food.name))),food.name);
 });

@@ -1,14 +1,17 @@
+import { academy } from './academy';
 import { recipes, type Recipe } from './data';
 
 export type ShoppingItem = { id: string; recipeId: string; name: string; amount: number; unit: string; checked: boolean };
 export type JournalEntry = { id: string; recipeId: string; date: string; comment: string; again: boolean };
 export type CookingDraft = { servings: number; prepared: string[]; finished: number[]; step: number; updatedAt: number };
 export type KitchenTimer = { durationMs: number; remainingMs: number; endsAt: number | null };
-export type Notebook = { saved: string[]; shopping: ShoppingItem[]; cooked: JournalEntry[]; notes: Record<string, string>; drafts: Record<string, CookingDraft>; timer: KitchenTimer | null };
-export const emptyNotebook: Notebook = { saved: [], shopping: [], cooked: [], notes: {}, drafts: {}, timer: null };
+export type Meal = { id: string; name: string; recipeIds: string[]; servings: number };
+export type Learning = { saved?: boolean; read?: boolean; note?: string };
+export type Notebook = { meals: Meal[]; learning: Record<string, Learning>; saved: string[]; shopping: ShoppingItem[]; cooked: JournalEntry[]; notes: Record<string, string>; drafts: Record<string, CookingDraft>; timer: KitchenTimer | null };
+export const emptyNotebook: Notebook = { saved: [], shopping: [], cooked: [], notes: {}, drafts: {}, timer: null, meals: [], learning: {} };
 // Keep the existing key so the first public preview upgrades without losing data.
 export const storageKey = 'kinozen-notebook-v1';
-export const newNotebook = (): Notebook => ({ saved: [], shopping: [], cooked: [], notes: {}, drafts: {}, timer: null });
+export const newNotebook = (): Notebook => ({ saved: [], shopping: [], cooked: [], notes: {}, drafts: {}, timer: null, meals: [], learning: {} });
 const object = (value: unknown): value is Record<string, unknown> => !!value && typeof value === 'object' && !Array.isArray(value);
 const text = (value: unknown, max: number) => typeof value === 'string' && value.length <= max;
 export const validDate = (value: unknown): value is string => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value;
@@ -53,6 +56,16 @@ export function readNotebook(raw: string | null, recipeIds: string[]): Notebook 
         updatedAt: typeof draft.updatedAt === 'number' && Number.isFinite(draft.updatedAt) ? draft.updatedAt : 0,
       };
     }
+    if (Array.isArray(value.meals)) {
+      const seen = new Set<string>();
+      for (const m of value.meals) if (object(m) && text(m.id,150) && m.id && !seen.has(m.id as string) && text(m.name,60) && (m.name as string).trim() && Array.isArray(m.recipeIds) && m.recipeIds.length > 0 && m.recipeIds.length <= recipeIds.length && m.recipeIds.every(id => typeof id === 'string' && recipeIds.includes(id)) && new Set(m.recipeIds).size === m.recipeIds.length && Number.isInteger(m.servings) && Number(m.servings)>=1 && Number(m.servings)<=6) {
+        seen.add(m.id as string); result.meals.push({id:m.id as string,name:m.name as string,recipeIds:m.recipeIds as string[],servings:Number(m.servings)});
+      }
+    }
+    if (object(value.learning)) for (const lesson of academy) {
+      const item=value.learning[lesson.id];
+      if (object(item)) {const clean:Learning={}; if(typeof item.saved==='boolean')clean.saved=item.saved;if(typeof item.read==='boolean')clean.read=item.read;if(text(item.note,1000))clean.note=item.note as string;result.learning[lesson.id]=clean;}
+    }
     const timer = value.timer;
     if (object(timer) && typeof timer.durationMs === 'number' && Number.isFinite(timer.durationMs) && timer.durationMs >= 1000 && timer.durationMs <= 599 * 60000 && typeof timer.remainingMs === 'number' && Number.isFinite(timer.remainingMs) && timer.remainingMs >= 0 && timer.remainingMs <= timer.durationMs && (timer.endsAt === null || (typeof timer.endsAt === 'number' && Number.isFinite(timer.endsAt) && timer.endsAt > 0 && timer.endsAt <= Date.now() + 599 * 60000))) result.timer = { durationMs: timer.durationMs, remainingMs: timer.remainingMs, endsAt: timer.endsAt };
     return result;
@@ -74,20 +87,23 @@ export function groupShopping(items: ShoppingItem[]) {
 }
 export const timerRemaining = (timer: KitchenTimer, now = Date.now()) => Math.max(0, timer.endsAt === null ? timer.remainingMs : timer.endsAt - now);
 export function backupJSON(notebook: Notebook) {
-  return JSON.stringify({ app: 'kinozen', version: 2, exportedAt: new Date().toISOString(), data: notebook }, null, 2);
+  return JSON.stringify({ app: 'kinozen', version: 3, exportedAt: new Date().toISOString(), data: notebook }, null, 2);
 }
 export function parseBackup(raw: string): Notebook {
   if (raw.length > 2 * 1024 * 1024) throw new Error('ファイルが大きすぎます。2MB以内の手帖ファイルを選んでください。');
   let value: unknown;
   try { value = JSON.parse(raw); } catch { throw new Error('JSONファイルを読み取れませんでした。'); }
-  if (!object(value) || value.app !== 'kinozen' || value.version !== 2 || !object(value.data)) throw new Error('季の膳から書き出した対応形式のファイルを選んでください。');
+  if (!object(value) || value.app !== 'kinozen' || (value.version !== 2 && value.version !== 3) || !object(value.data)) throw new Error('季の膳から書き出した対応形式のファイルを選んでください。');
   const data = value.data;
   if (!Array.isArray(data.saved) || !Array.isArray(data.shopping) || !Array.isArray(data.cooked) || !object(data.notes) || !object(data.drafts)) throw new Error('手帖のデータ形式が正しくありません。');
   const result = readNotebook(JSON.stringify(data), recipes.map(recipe => recipe.id));
+    const canonical = (v: unknown): string => JSON.stringify(v, (_key, item) => object(item) ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b))) : item);
   // Reject malformed backups, rather than silently restoring only part of a user's records.
   for (const key of ['saved', 'shopping', 'cooked', 'notes', 'drafts', 'timer'] as const) {
-    const canonical = (v: unknown): string => JSON.stringify(v, (_key, item) => object(item) ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b))) : item);
+
     if (canonical(result[key]) !== canonical(data[key])) throw new Error('未対応の料理や不正な値が含まれています。現在の手帖は変更していません。');
   }
+  if (value.version === 2) { result.meals=[]; result.learning={}; }
+  if (value.version === 3) for (const key of ['meals','learning'] as const) { if (canonical(result[key]) !== canonical(data[key])) throw new Error('献立・学習データの形式が正しくありません。'); }
   return result;
 }

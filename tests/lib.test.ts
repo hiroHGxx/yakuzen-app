@@ -8,7 +8,7 @@ test('ingredient search matches all requested ingredients and combines category/
   assert.deepEqual(filterRecipes(recipes, '生姜', 'すべて', true).map(recipe => recipe.id), ['pear-compote', 'eggplant-ginger']);
   assert.equal(filterRecipes(recipes, '梨', '汁もの', false).length, 0);
   assert.equal(filterRecipes(recipes, '架空の食材', 'すべて', false).length, 0);
-  assert.deepEqual(filterRecipes(recipes, '', 'すべて', false, '夏').map(recipe => recipe.id), ['tomato-egg', 'pea-rice', 'eggplant-ginger']);
+  assert.deepEqual(filterRecipes(recipes, '', 'すべて', false, '夏').map(recipe => recipe.id), ['tomato-egg', 'pea-rice', 'eggplant-ginger', 'mackerel-tomato', 'pumpkin-simmer', 'corn-rice']);
 });
 
 test('shopping amounts scale and adding the same recipe replaces rather than duplicates', () => {
