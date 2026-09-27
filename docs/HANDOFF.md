@@ -73,6 +73,7 @@ node scripts/check-publication.mjs
 
 ## 公開済みの履歴
 
+- `c70f691`：この引き継ぎ文書とREADMEからの案内を追加。mainへのpushとクリーンな作業ツリーを確認。文書のみの変更のためアプリテストは再実行していない。
 - `b570964`：ホーム再設計。`9a5b0d9`：再設計の記録。
 - `c5c7893`：OGP実装。`8a01598`：OGP検証記録。本引き継ぎ作成前の最新コミット。
 - OGP配信成功：https://github.com/hiroHGxx/yakuzen-app/actions/runs/36308054843
