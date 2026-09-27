@@ -1,0 +1,136 @@
+/* The personal journal shares the quiet paper and olive palette of the recipe pages. */
+textarea,select,input{font:inherit;max-width:100%}
+textarea{resize:vertical}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.personal-memo,.journal-form{margin:25px 0;padding:25px;background:#f0eee4;border:1px solid #dedfce;border-radius:9px}
+.journal-label{display:flex;align-items:center;gap:10px}
+.personal-memo h3,.journal-form h3{font:400 20px/1.7 var(--serif)}
+.personal-memo>p{font-size:12px;line-height:1.9;margin:10px 0 16px;color:#69765d}
+.personal-memo textarea,.journal-form textarea,.journal-form select,.journal-form input[type=date],.shopping-add input,.copy-fallback textarea,.journal-toolbar select{width:100%;border:1px solid #cfd6c3;background:#fffef9;padding:12px;border-radius:5px;color:var(--ink);font-size:14px;min-width:0}
+textarea:focus-visible,summary:focus-visible{outline:2px solid #68784e;outline-offset:3px}
+.personal-memo textarea,.journal-form textarea{line-height:1.9}
+.memo-actions{display:flex;gap:17px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+.memo-actions>span{font-size:10px;color:#7a826e;margin-right:auto}
+.memo-actions .button{padding:10px 14px;gap:8px;font-size:12px}
+.journal-form h3{margin:10px 0 20px}
+.journal-fields{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:15px;margin-bottom:18px}
+.journal-form label{display:block;font-size:12px;line-height:1.8;color:#627153}
+.journal-form select,.journal-form input,.journal-form textarea{margin-top:7px}
+.journal-form .again-check,.again-check{display:flex;align-items:center;gap:8px;font-size:12px;margin:14px 0}
+.again-check input{margin:0}
+.form-actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:20px}
+.form-actions .button{font-size:12px;gap:8px;padding:12px 18px}
+.form-error{font-size:13px;line-height:1.8;color:#8b4935;margin:15px 0}
+.journal-detail-link{white-space:normal;text-align:left;margin-top:12px}
+.resume-note{padding:16px 19px;border:1px dashed #bfcbae;border-radius:6px;margin:-14px 0 24px;font-size:12px;color:#637451;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.resume-note .text-button{font-size:11px;white-space:normal}
+.resume-note .form-actions{margin:0}
+.kitchen-timer{padding:18px 22px;background:#eeeede;border:1px solid #d7dccb;border-radius:7px;margin:22px 0}
+.timer-label{display:flex;align-items:center;gap:8px;font-size:12px;color:#61744d}
+.timer-start{display:flex;gap:13px;align-items:center;margin:15px 0}
+.timer-start label{font-size:12px;display:flex;align-items:center;gap:8px}
+.timer-start input{width:85px;padding:12px;border:1px solid #cad3bc;border-radius:4px;background:#fffef9;font-size:16px}
+.timer-start .button{font-size:12px;gap:9px}
+.timer-readout{font-size:38px;letter-spacing:.08em;font-variant-numeric:tabular-nums;margin-top:12px;color:#485b38}
+.timer-readout span{color:#9ca58f;margin:0 3px}
+.timer-status{font-size:12px;line-height:1.8;margin:6px 0;color:#5e6a52}
+.timer-controls{display:flex;gap:20px;flex-wrap:wrap}
+.kitchen-timer .small-note{font-size:10px;line-height:1.9;margin-top:9px}
+.timer-compact{margin:30px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.timer-compact .timer-readout{margin:0;font-size:30px}
+.notebook-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:30px;padding:25px 12px;background:#eceddf;border:1px solid #dedfcf;border-radius:9px}
+.notebook-summary>div{text-align:center;border-right:1px solid #d3d8c5}
+.notebook-summary>div:last-child{border:0}
+.notebook-summary span{font-size:11px;color:#768268}
+.notebook-summary strong{display:block;font:400 38px/1.5 var(--serif);color:#556643;margin-top:7px}
+.notebook-summary small{font:11px 'Noto Sans JP',sans-serif;margin-left:8px;color:#869277}
+.notebook-expanded .tabs{overflow-x:auto;gap:26px}
+.notebook-expanded .tabs>button{flex-shrink:0}
+.journal-toolbar{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px}
+.journal-toolbar>label:first-child{font-size:11px;display:flex;align-items:center;gap:8px}
+.journal-toolbar select{width:130px;padding:10px}
+.journal-toolbar .button{padding:12px 18px;font-size:12px;gap:7px}
+.journal-month{font:400 22px/1.8 var(--serif);margin:24px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line);color:#748460}
+.journal-timeline article{align-items:flex-start;padding:18px;gap:21px;background:#fffdf6}
+.journal-timeline .journal-photo{padding:0;flex:0 0 150px}
+.journal-timeline .journal-photo img{width:150px;height:130px;border-radius:5px}
+.journal-entry{min-width:0;flex:1}
+.journal-entry>span{display:flex;align-items:center;gap:10px;color:#819168;font-size:11px}
+.journal-title{padding:8px 0;text-align:left}
+.journal-timeline .journal-title h3{font:400 19px/1.8 var(--serif);color:#526143}
+.journal-entry>p{font-size:13px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere;color:#69765e}
+.journal-entry-actions{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+.journal-entry-actions .text-button{font-size:11px;gap:6px}
+.delete-confirm{padding:12px;background:#f3e9dc;margin-top:10px;font-size:12px;line-height:1.9}
+.delete-confirm .text-button{margin-right:15px}
+.memo-library{margin-top:32px}
+.memo-library h2,.reflection h2,.backup-panel h2{font:400 23px/1.8 var(--serif);margin:9px 0 16px}
+.memo-card{display:flex;align-items:flex-start;gap:15px;width:100%;padding:22px;border-bottom:1px solid var(--line);background:#f0eee4;border-radius:6px;margin-top:12px}
+.memo-card>svg{color:#87946f;margin-top:6px}
+.memo-card>div{min-width:0}
+.memo-card h3{font:400 17px/1.7 var(--serif)}
+.memo-card p{font-size:12px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0;color:#6b775f}
+.memo-card span{font-size:10px;color:#83906f}
+.reflection>section{margin-bottom:35px}
+.reflection>section>p{font-size:12px;color:#7b846f;margin:0 0 20px;line-height:2}
+.reflection-favorites{display:grid;gap:13px}
+.reflection-favorites>button{display:flex;align-items:center;gap:18px;text-align:left;padding:13px;background:#f1f1e7;border-radius:7px}
+.reflection-favorites img{width:100px;height:83px;border-radius:4px}
+.reflection-favorites>button>div{flex:1;min-width:0}
+.reflection-favorites h3{font:400 18px/1.7 var(--serif)}
+.reflection-favorites span{font-size:11px;color:#849171}
+.reflection .empty-inline{padding:30px;background:#eff0e6;border-radius:7px}
+.backup-panel{border-top:1px solid var(--line);margin-top:42px;padding-top:30px}
+.backup-panel>div>p{font-size:12px;line-height:2;color:#738062;max-width:580px}
+.backup-actions{display:flex;gap:12px;margin:21px 0;flex-wrap:wrap}
+.backup-actions .button{font-size:12px;gap:9px}
+.backup-panel .small-note{font-size:10px;line-height:1.9}
+.restore-confirm{padding:24px;background:#f1eadb;border:1px solid #ddd0b9;border-radius:7px;margin:20px 0}
+.restore-confirm h3{font:400 20px/1.8 var(--serif)}
+.restore-confirm p{margin-top:12px!important;overflow-wrap:anywhere}
+.shopping-empty{display:flex;align-items:center;gap:15px;padding:25px 0;color:#849272}
+.shopping-empty p{font-size:12px;line-height:1.9}
+.shopping-aggregate{border-bottom:1px solid var(--line);padding:5px 0 12px}
+.shopping-aggregate .shopping-item{border:0}
+.shopping-aggregate details{padding-left:26px}
+.shopping-aggregate summary{cursor:pointer;font-size:10px;color:#7e8a6f;padding:7px 0}
+.shopping-aggregate details p{display:flex;justify-content:space-between;gap:10px;font-size:11px;line-height:1.9;color:#728063;padding:5px 0}
+.shopping-aggregate details p>span{white-space:nowrap}
+.shopping-add{margin:22px 0}
+.shopping-add h3{font:400 18px/1.8 var(--serif);margin-bottom:12px}
+.shopping-add>div{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr) minmax(0,1fr) auto;gap:8px}
+.shopping-add .button{gap:6px;padding:12px;font-size:12px}
+.copy-fallback{display:block;font-size:12px;line-height:1.9;margin-top:15px}
+.copy-fallback textarea{margin-top:10px;min-height:150px}
+.personal-table{padding:30px 0;margin-bottom:30px;border-top:1px solid var(--line)}
+.personal-table-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.personal-table-grid>button{padding:0;text-align:left;background:#efefe4;border-radius:8px;overflow:hidden}
+.personal-table-grid img{width:100%;aspect-ratio:1.65;object-fit:cover}
+.personal-table-grid>button>div{padding:18px}
+.personal-table-grid span,.personal-table-grid small{font-size:10px;color:#7c8a68}
+.personal-table-grid h3{font:400 18px/1.8 var(--serif);margin:9px 0 13px}
+@media(max-width:760px){
+ textarea,.journal-form select,.journal-form input[type=date],.shopping-add input,.journal-toolbar select{font-size:16px!important}
+ .personal-memo,.journal-form{padding:19px}
+ .journal-fields{grid-template-columns:1fr}
+ .memo-actions{gap:10px}.memo-actions>span{flex-basis:100%}
+ .journal-form .form-actions .button{flex:1;padding:12px 8px}
+ .notebook-summary{padding:18px 2px}.notebook-summary span{font-size:10px}.notebook-summary strong{font-size:30px}
+ .notebook-expanded .tabs{gap:21px}
+ .journal-timeline article{padding:12px;gap:13px}
+ .journal-timeline .journal-photo{flex-basis:83px}.journal-timeline .journal-photo img{width:83px;height:95px}
+ .journal-timeline .journal-title h3{font-size:16px}
+ .journal-entry-actions{gap:10px}.journal-entry-actions .text-button{font-size:10px}
+ .journal-entry>p{font-size:12px}
+ .shopping-add>div{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}
+ .shopping-add input:first-child{grid-column:1/-1}
+ .shopping-aggregate details p{display:block}.shopping-aggregate details p>span{display:block}
+ .backup-actions{display:grid;grid-template-columns:1fr}.restore-confirm{padding:18px}.restore-confirm .form-actions{display:grid;grid-template-columns:1fr}
+ .personal-table-grid{grid-template-columns:1fr;gap:12px}
+ .personal-table-grid>button{display:flex;align-items:stretch}.personal-table-grid img{width:105px;aspect-ratio:auto;object-fit:cover}.personal-table-grid>button>div{padding:15px;flex:1;min-width:0}.personal-table-grid h3{font-size:17px;margin:7px 0}
+ .kitchen-timer{padding:16px}.timer-compact{gap:10px}.timer-compact .timer-status{flex-basis:100%}
+}
+
+.journal-timeline article>.journal-photo:first-of-type{flex:0 0 150px}
+.skip-link{opacity:0;pointer-events:none}.skip-link:focus{opacity:1;pointer-events:auto}
+@media(max-width:760px){.journal-timeline article>.journal-photo:first-of-type{flex-basis:83px}.notebook-expanded .tabs{display:grid;grid-template-columns:repeat(4,auto);gap:8px;justify-content:space-between}.notebook-expanded .tabs>button{font-size:11px}}

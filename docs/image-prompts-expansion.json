@@ -1,0 +1,32 @@
+[
+  {
+    "id": "pea-rice",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: Japanese recipe app editorial food photograph. Subject: Japanese green pea rice (mame gohan), white cooked rice with bright green peas, in a small ivory handmade ceramic rice bowl. No garnishes. Quiet seasonal home cooking, natural window light from left, beige linen on pale warm wood, restrained olive and ivory palette, authentic food texture, subtle soft shadows, shot at 45 degree overhead angle, centered bowl filling 70 percent of image with generous margins. Landscape 3:2 photograph. One finished dish only, no people, no text, no logo, no watermark, no collage."
+  },
+  {
+    "id": "sweet-rice",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: Japanese recipe app editorial food photograph. Subject: Japanese sweet potato rice, white cooked rice with yellow sweet potato cubes with purple skin and a tiny sprinkle of black sesame, in a warm ivory ceramic rice bowl. Quiet seasonal home cooking, natural window light from left, beige linen on pale warm wood, restrained olive and ivory palette, authentic food texture, subtle soft shadows, shot at 45 degree overhead angle, centered bowl filling 70 percent of image with generous margins. Landscape 3:2 photograph. One finished dish only, no people, no text, no logo, no watermark, no collage."
+  },
+  {
+    "id": "cabbage-miso",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: Japanese recipe app editorial food photograph. Subject: Japanese light brown miso soup with tender green cabbage leaves and white tofu cubes in a rustic matte cream ceramic soup bowl, no other ingredients or garnishes. Quiet seasonal home cooking, natural window light from left, beige linen on pale warm wood, restrained olive and ivory palette, authentic food texture, subtle soft shadows, shot at 45 degree overhead angle, centered bowl filling 70 percent of image with generous margins. Landscape 3:2 photograph. One finished dish only, no people, no text, no logo, no watermark, no collage."
+  },
+  {
+    "id": "carrot-sesame",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: Japanese recipe app editorial food photograph. Subject: Japanese carrot sesame salad, thin tender cooked orange carrot matchsticks lightly dressed with ground white sesame and soy sauce, in a small muted olive ceramic bowl. No green garnish. Quiet seasonal home cooking, natural window light from left, beige linen on pale warm wood, restrained olive and ivory palette, authentic food texture, subtle soft shadows, shot at 45 degree overhead angle, centered bowl filling 70 percent of image with generous margins. Landscape 3:2 photograph. One finished dish only, no people, no text, no logo, no watermark, no collage."
+  },
+  {
+    "id": "eggplant-ginger",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: Japanese recipe app editorial food photograph. Subject: Japanese steamed eggplant, tender purple eggplant wedges lightly dressed with soy sauce and grated ginger and a little sesame oil, in a pale handmade ceramic shallow plate. No garnish besides grated ginger. Quiet seasonal home cooking, natural window light from left, beige linen on pale warm wood, restrained olive and ivory palette, authentic food texture, subtle soft shadows, shot at 45 degree overhead angle, centered bowl filling 70 percent of image with generous margins. Landscape 3:2 photograph. One finished dish only, no people, no text, no logo, no watermark, no collage."
+  },
+  {
+    "id": "apple-cinnamon",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: Japanese recipe app editorial food photograph. Subject: Japanese home-style simmered apple wedges with red peel, lightly glazed with syrup and a dusting of cinnamon, in a small cream ceramic dessert bowl. No ice cream or other food. Quiet seasonal home cooking, natural window light from left, beige linen on pale warm wood, restrained olive and ivory palette, authentic food texture, subtle soft shadows, shot at 45 degree overhead angle, centered bowl filling 70 percent of image with generous margins. Landscape 3:2 photograph. One finished dish only, no people, no text, no logo, no watermark, no collage."
+  }
+]

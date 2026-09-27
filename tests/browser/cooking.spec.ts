@@ -17,7 +17,7 @@ test('preparation and cooking keep portions and progress, and record only on req
   await expect(dialog.getByRole('checkbox', { name: /鶏もも肉/ })).not.toBeChecked();
   await dialog.getByRole('button', { name: '人数を減らす' }).click();
   await dialog.getByRole('checkbox', { name: /鶏もも肉/ }).check();
-  await dialog.getByRole('button', { name: '調理をはじめる' }).click();
+  await dialog.getByRole('button', { name: '調理の続きへ' }).click();
   await expect(dialog.locator('.cooking-step h2')).toBeFocused();
   await dialog.getByText('材料と分量を確認する').click();
   await expect(dialog.locator('.ingredient-list li').filter({ hasText: '鶏もも肉' })).toContainText('225 g');
@@ -45,7 +45,7 @@ test('preparation and cooking keep portions and progress, and record only on req
   await expect(page.locator('.cooked-list article')).toHaveCount(1);
 });
 
-test('jumping to the last step does not skip unfinished steps; reopening clears session checks', async ({ page }) => {
+test('jumping to the last step does not skip unfinished steps; reopening preserves checks', async ({ page }) => {
   const dialog = await openSoup(page);
   await dialog.getByRole('button', { name: '調理をはじめる' }).click();
   await dialog.getByRole('button', { name: '工程3を見る' }).click();
@@ -55,14 +55,14 @@ test('jumping to the last step does not skip unfinished steps; reopening clears 
   await expect(dialog.getByRole('button', { name: '前へ', exact: true })).toBeDisabled();
   await page.keyboard.press('Escape');
   await page.getByRole('button', { name: 'れんこんと鶏肉のやさしいスープのレシピを見る' }).click();
-  await expect(dialog.getByRole('button', { name: '調理をはじめる' })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: '手順3を完了にする' })).toHaveAttribute('aria-pressed', 'false');
+  await expect(dialog.getByRole('button', { name: '調理の続きへ' })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: '手順3を未完了にする' })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('all six recipes fit narrow screens in detail and cooking views', async ({ page }) => {
+test('all twelve recipes fit narrow screens in detail and cooking views', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('./#recipes');
-  for (let index = 0; index < 6; index++) {
+  for (let index = 0; index < 12; index++) {
     await page.locator('.photo-link').nth(index).click();
     const dialog = page.getByRole('dialog');
     await page.evaluate(() => document.fonts.ready);

@@ -1,14 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { addIngredients, filterRecipes, getSeasonalTerm, readNotebook, todayISO } from '../src/lib.ts';
+import { addIngredients, filterRecipes, getSeasonalTerm, readNotebook, todayISO, newNotebook } from '../src/lib.ts';
 import { recipes } from '../src/data.ts';
 
 test('ingredient search matches all requested ingredients and combines category/time filters', () => {
   assert.deepEqual(filterRecipes(recipes, 'れんこん、鶏肉', 'すべて', false).map(recipe => recipe.id), ['lotus-soup']);
-  assert.deepEqual(filterRecipes(recipes, '生姜', 'すべて', true).map(recipe => recipe.id), ['pear-compote']);
+  assert.deepEqual(filterRecipes(recipes, '生姜', 'すべて', true).map(recipe => recipe.id), ['pear-compote', 'eggplant-ginger']);
   assert.equal(filterRecipes(recipes, '梨', '汁もの', false).length, 0);
   assert.equal(filterRecipes(recipes, '架空の食材', 'すべて', false).length, 0);
-  assert.deepEqual(filterRecipes(recipes, '', 'すべて', false, '夏').map(recipe => recipe.id), ['tomato-egg']);
+  assert.deepEqual(filterRecipes(recipes, '', 'すべて', false, '夏').map(recipe => recipe.id), ['tomato-egg', 'pea-rice', 'eggplant-ginger']);
 });
 
 test('shopping amounts scale and adding the same recipe replaces rather than duplicates', () => {
@@ -24,9 +24,9 @@ test('shopping amounts scale and adding the same recipe replaces rather than dup
 
 test('notebook tolerates corrupt local storage and filters outdated recipe IDs', () => {
   const ids = recipes.map(recipe => recipe.id);
-  assert.deepEqual(readNotebook('{broken', ids), { saved: [], shopping: [], cooked: [] });
-  assert.deepEqual(readNotebook('null', ids), { saved: [], shopping: [], cooked: [] });
-  assert.deepEqual(readNotebook(JSON.stringify({ saved: ['mushroom-rice', 'missing', 'mushroom-rice', 5], shopping: [{ id: 'bad' }], cooked: [{ recipeId: 'mushroom-rice', date: 'bad' }] }), ids), { saved: ['mushroom-rice'], shopping: [], cooked: [] });
+  assert.deepEqual(readNotebook('{broken', ids), newNotebook());
+  assert.deepEqual(readNotebook('null', ids), newNotebook());
+  assert.deepEqual(readNotebook(JSON.stringify({ saved: ['mushroom-rice', 'missing', 'mushroom-rice', 5], shopping: [{ id: 'bad' }], cooked: [{ recipeId: 'mushroom-rice', date: 'bad' }] }), ids), { ...newNotebook(), saved: ['mushroom-rice'] });
 });
 
 test('season boundaries use Japan time, including the previous winter solstice in January', () => {

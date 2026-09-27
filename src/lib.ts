@@ -42,28 +42,8 @@ export function filterRecipes(recipes: Recipe[], query: string, category: string
   });
 }
 
-export type ShoppingItem = { id: string; recipeId: string; name: string; amount: number; unit: string; checked: boolean };
-export type JournalEntry = { recipeId: string; date: string };
-export type Notebook = { saved: string[]; shopping: ShoppingItem[]; cooked: JournalEntry[] };
-export const emptyNotebook: Notebook = { saved: [], shopping: [], cooked: [] };
-export const storageKey = 'kinozen-notebook-v1';
-
-export function readNotebook(raw: string | null, recipeIds: string[]): Notebook {
-  if (!raw) return { saved: [], shopping: [], cooked: [] };
-  try {
-    const value = JSON.parse(raw);
-    return {
-      saved: Array.isArray(value.saved) ? [...new Set<string>(value.saved.filter((id: unknown) => typeof id === 'string' && recipeIds.includes(id)))] : [],
-      shopping: Array.isArray(value.shopping) ? value.shopping.filter((item: ShoppingItem) => item && typeof item.id === 'string' && recipeIds.includes(item.recipeId) && typeof item.name === 'string' && typeof item.unit === 'string' && Number.isFinite(item.amount) && item.amount > 0 && typeof item.checked === 'boolean') : [],
-      cooked: Array.isArray(value.cooked) ? value.cooked.filter((item: JournalEntry) => item && recipeIds.includes(item.recipeId) && typeof item.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(item.date) && !Number.isNaN(Date.parse(item.date))) : [],
-    };
-  } catch { return { saved: [], shopping: [], cooked: [] }; }
-}
-
-export function addIngredients(items: ShoppingItem[], recipe: Recipe, servings: number) {
-  const otherItems = items.filter(item => item.recipeId !== recipe.id);
-  return [...otherItems, ...recipe.ingredients.map((ingredient, index) => ({ ...ingredient, id: `${recipe.id}-${index}`, recipeId: recipe.id, amount: ingredient.amount * servings / 2, checked: false }))];
-}
+export { addIngredients, emptyNotebook, newNotebook, readNotebook, storageKey } from './notebook';
+export type { Notebook, ShoppingItem, JournalEntry } from './notebook';
 
 export function formatAmount(amount: number) {
   return Number(amount.toFixed(2)).toString();

@@ -14,6 +14,7 @@ export function ThemeReading({ theme }: { theme: FeelingTheme }) {
 }
 
 type TodayProps = {
+  personal?: ReactNode;
   selected: string | null;
   onSelect: (id: string | null) => void;
   renderRecipe: (recipe: Recipe, theme?: FeelingTheme) => ReactNode;
@@ -25,7 +26,7 @@ type TodayProps = {
   term: { name: string; season: string; range: string };
 };
 
-export function Today({ selected, onSelect, renderRecipe, onSearch, onSeason, onLearn, onNotebook, onFilter, term }: TodayProps) {
+export function Today({ personal, selected, onSelect, renderRecipe, onSearch, onSeason, onLearn, onNotebook, onFilter, term }: TodayProps) {
   const [ingredient, setIngredient] = useState('');
   const theme = feelingThemes.find(item => item.id === selected);
   const seasonalRecipe = recipes.find(recipe => recipe.seasons.includes(term.season)) ?? recipes[0];
@@ -38,6 +39,7 @@ export function Today({ selected, onSelect, renderRecipe, onSearch, onSeason, on
       </div>
       <div className="feeling-photo"><img src={asset('soup')} width="1536" height="1024" alt="生姜を添えたれんこんと鶏肉のスープ" fetchPriority="high"/><span>ひと呼吸、ひとさじ。<small>KI NO ZEN · DAILY TABLE</small></span></div>
     </section>
+    {personal}
     <section className="feeling-selector" aria-labelledby="feeling-title">
       <div className="section-heading"><div><span className="eyebrow">01 / LISTEN TO YOURSELF</span><h2 id="feeling-title">いまの自分から、選ぶ。</h2></div><span className="optional-label">選ばずに探しても、大丈夫。</span></div>
       <div className="feeling-options">{feelingThemes.map((item, index) => <button key={item.id} aria-pressed={selected === item.id} className={`feeling-option ${selected === item.id ? 'selected' : ''}`} onClick={() => onSelect(selected === item.id ? null : item.id)}><span className="feeling-number">0{index + 1}</span><span><strong>{item.label}</strong><small>{item.caption}</small></span>{selected === item.id ? <Check size={17}/> : <ArrowRight size={17}/>}</button>)}</div>
