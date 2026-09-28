@@ -13,6 +13,7 @@
 - テスト: `tests/browser/design.spec.ts` を追加（文字12px以上・選択肢24px・読み物の見分け・スマホ入力欄16px）。修理前のコードでは5件とも落ちることを確認。
 - 目付: `ut.config.yaml` と `docs/ut/scenarios/` に hybrid シナリオ11件（参加者用・モデレータ用）。人による実施は未実施。
 - 金継ぎの診断書・前後比較の証書はリポジトリ外（金継ぎスキルの field/kinozen/）。
+- 公開コミット `886d5c9`。配信成功：https://github.com/hiroHGxx/yakuzen-app/actions/runs/36363913995 。公開URLの再計測で修理後の数値を確認。
 
 ## 献立と薬膳の学び（公開済み・2026-09-27）
 
