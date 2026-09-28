@@ -28,7 +28,7 @@ test('calendar reuses a day and all expanded views fit a narrow phone',async({pa
  await page.setViewportSize({width:320,height:850});await page.goto('./#notebook');
  const n=newNotebook();n.cooked=[{id:'a',recipeId:'lotus-soup',date:'2026-09-01',comment:'',again:false},{id:'b',recipeId:'pea-rice',date:'2026-09-01',comment:'',again:false}];
  await page.evaluate(value=>localStorage.setItem('kinozen-notebook-v1',JSON.stringify(value)),n);await page.reload();
- await page.getByText('食卓カレンダー・献立・学びの手帖をひらく',{exact:true}).click();await page.getByLabel('カレンダーの月').fill('2026-09');await page.getByRole('button',{name:'2026-09-01 2品',exact:true}).click();await page.getByRole('button',{name:'この日の料理を献立に保存'}).click();await expect(page.locator('.saved-meal')).toContainText('2026-09-01の食卓');
+ await page.getByRole('tab',{name:'暦と献立',exact:true}).click();await page.getByLabel('カレンダーの月').fill('2026-09');await page.getByRole('button',{name:'2026-09-01 2品',exact:true}).click();await page.getByRole('button',{name:'この日の料理を献立に保存'}).click();await expect(page.locator('.saved-meal')).toContainText('2026-09-01の食卓');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.goto('./#recipes');for(const t of ['献立づくり','家にある食材']){await page.getByRole('button',{name:t,exact:true}).click();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.goto('./#learn');await page.getByRole('tab',{name:'季節の暦',exact:true}).click();await expect(page.locator('.feature-grid article')).toHaveCount(4);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

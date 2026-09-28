@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>季の膳 UTモデレーターシナリオ</title>
+  <style>
+    :root { color-scheme:light; --ink:#17202a; --muted:#667085; --line:#d7dce2; --paper:#fff; --soft:#f5f7fa; --accent:#2457d6; --good:#157347; --warn:#9a6700; --danger:#b42318; }
+    * { box-sizing:border-box; }
+    body { margin:0; overflow-x:hidden; background:var(--soft); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; }
+    main { width:min(1240px,calc(100% - 32px)); max-width:calc(100vw - 32px); margin:32px auto; background:var(--paper); padding:clamp(24px,4vw,52px); border:1px solid var(--line); border-radius:16px; }
+    h1 { font-size:clamp(28px,4vw,42px); line-height:1.15; margin:0 0 12px; }
+    h2 { margin-top:48px; padding-bottom:10px; border-bottom:2px solid var(--ink); }
+    .meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin:20px 0; color:var(--muted); }
+    .callout { padding:16px 18px; background:#eef3ff; border-left:4px solid var(--accent); border-radius:8px; }
+    table { width:100%; border-collapse:collapse; margin:18px 0 30px; font-size:14px; }
+    th,td { padding:12px; border:1px solid var(--line); vertical-align:top; text-align:left; }
+    th { background:#edf0f4; }
+    .id { font-weight:750; color:var(--accent); white-space:nowrap; }
+    .source { color:var(--muted); font-size:12px; }
+    .risk-low { color:var(--good); }
+    .risk-medium { color:var(--warn); }
+    .risk-high { color:var(--danger); font-weight:700; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; }
+    h1,h2,p,.callout,.meta span { overflow-wrap:anywhere; }
+    footer { margin-top:48px; color:var(--muted); font-size:13px; }
+    @media (max-width:800px) { table { display:block; overflow-x:auto; } th,td { min-width:150px; } }
+    @media print { body { background:#fff; } main { width:100%; margin:0; border:0; padding:20px; } table { font-size:11px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>季の膳 UTモデレーターシナリオ</h1>
+    <div class="meta">
+      <span>モード: hybrid</span>
+      <span>環境: production（実機Safari）</span>
+      <span>作成: 2026-09-28</span>
+      <span>改訂: —</span>
+      <span>シナリオ数: 11</span>
+      <span>設定: ut.config.yaml</span>
+    </div>
+  </header>
+
+  <div class="callout">
+    参加者へ期待結果や理想操作を先に見せない。結果は実施中に<code>results.jsonl</code>へ逐次保存する。外部影響操作は実行直前に確認する。
+  </div>
+
+  <section>
+    <h2>目的と範囲</h2>
+    <p><strong>目的:</strong> 2026-09-28 の金継ぎ診断によるデザイン修理（文字の底上げ・色トークン化・チェックボックス拡大・学ぶ画面の読み物見出し・下部ナビの不透明化・入力欄16px）が実機で読みやすさと操作性を上げたかを確かめ、見立てで挙がった2つの仮説（A-1 最初の一歩が埋もれている／A-4 手帖の主役が折りたたみの中）を観察で検証する。人による確認はこれまでにある程度済んでいるため、それと重ならない範囲に絞る。</p>
+    <p><strong>対象ユーザー:</strong> スマートフォンで日々の献立を考える、薬膳に関心はあるが専門知識はない一般の利用者（匿名化・1名から）。</p>
+    <p><strong>環境:</strong> iPhone の実機 Safari。修理版は公開前のため、公開後は <code>https://hirohgxx.github.io/yakuzen-app/</code>、公開前ならローカル preview を同じネットワークの端末から開く。</p>
+    <p><strong>モード:</strong> hybrid（受入の判定と、使いやすさの観察を別欄に記録する）。</p>
+    <p><strong>テストデータ:</strong> サーバーのデータは無く、変更は参加者端末の localStorage だけ。自由入力には <code>UT-20260928-{run_id}-</code> を付ける。開始前に baseline（手帖の件数）を記録し、終了後は dry-run を示してから「手帖のデータを削除」または別プロファイルの破棄で片づける。</p>
+    <p><strong>外部影響:</strong> C-1 は Open-Meteo へ通信する（実施直前に参加者の了承を取る）。C-2 は端末にファイルを保存する。</p>
+    <p><strong>対象外:</strong> 薬膳の内容の正確性（監修前）、PC表示、Android、天気予報の精度、バックアップからの復元（既存の自動テストで確認済み）。</p>
+  </section>
+
+  <section>
+    <h2>A. 見て、探す（データを変えない）</h2>
+    <table>
+      <thead>
+        <tr><th>No.</th><th>開始状態・参加者タスク</th><th>成功条件・期待結果</th><th>観察点・中立プローブ</th><th>リスク・データ</th><th>結果</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="id">A-1</span><div class="source">今日（ホーム）／見立て1「最初の一歩」</div></td>
+          <td><strong>開始:</strong> スマホ（実機Safari）で公開URLを開いた直後。手帖は空。<br><strong>タスク:</strong> 最近、朝晩が冷えて体が冷えやすいと感じています。今日の夕食に合いそうな料理を1つ見つけて、どんな料理か確かめてください。</td>
+          <td>「冷えが気になる」の入口からテーマの解説と料理の候補に進み、料理の詳細（材料・手順）を開く。受入: 候補が3品以上出て、各料理に選んだ理由が表示される。</td>
+          <td><strong>観察:</strong> 最初の画面で気分の入口を見つけるまでにスクロールしたか。「今日の食卓と、わたしの学び」の丸ボタンに先に反応したか。<br><strong>必要時のみ:</strong> 「いま、どこを見ていますか？」</td>
+          <td><span class="risk-low">non-mutating</span><br>データの変更なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">A-2</span><div class="source">つくる（24品）／文字の底上げ・色トークン化</div></td>
+          <td><strong>開始:</strong> A-1の終了後。ホームにいる。<br><strong>タスク:</strong> 平日の夜で、あまり時間がありません。15分以内でつくれる汁ものを探して、2人分の材料を確かめてください。</td>
+          <td>「つくる」で汁もの＋15分以内に絞り、候補から1品を開いて人数を2人分にする。受入: 絞り込み結果が汁もので15分以内の料理だけになり、材料の量が人数に合わせて変わる。</td>
+          <td><strong>観察:</strong> 料理カードの小さい文字（時間・カテゴリ・一言）を、拡大せずに読めているか。画面を近づける・ピンチで拡大する動作が出たか。<br><strong>必要時のみ:</strong> 「文字の大きさはどう感じますか？」</td>
+          <td><span class="risk-low">non-mutating</span><br>データの変更なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">A-3</span><div class="source">学ぶ（読みもの）／今回の変更: 読み物3つにテーマ名</div></td>
+          <td><strong>開始:</strong> A-2の終了後。<br><strong>タスク:</strong> 仕事で気が張りつめている日が続いています。そういうときの食事について、このアプリの考え方を読んでみてください。</td>
+          <td>「学ぶ」または「今日」の「気持ちが張りつめている」から、該当テーマの解説を開いて読む。受入: 学ぶ画面の読み物3つがテーマ名で見分けられ、正しいテーマの解説が開く。</td>
+          <td><strong>観察:</strong> 読み物3つを見比べたか、迷って別のものを開いたか。解説文の段落の長さへの反応。<br><strong>必要時のみ:</strong> 「どれを開くか、何で決めましたか？」</td>
+          <td><span class="risk-low">non-mutating</span><br>データの変更なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">A-4</span><div class="source">手帖／見立て2「手帖の主役が折りたたみの中」</div></td>
+          <td><strong>開始:</strong> A-3の終了後。手帖は空（記録なし）でよい。<br><strong>タスク:</strong> この1か月、何をつくったかを思い出したくなりました。これまでにつくった料理を、日付ごとに振り返れる場所を探してください。</td>
+          <td>「手帖」を開き、上部の「食卓カレンダー・献立・学びの手帖をひらく」を開いてカレンダーにたどり着く。受入: カレンダーの月を切り替えられる。</td>
+          <td><strong>観察:</strong> 折りたたみの「ひらく」に気づくまでの時間。「つくった記録」タブを先に探したか。<br><strong>必要時のみ:</strong> 「探しているものは、どこにありそうだと思いますか？」</td>
+          <td><span class="risk-low">non-mutating</span><br>データの変更なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">A-5</span><div class="source">実機Safari／今回の変更: 入力欄16px・下部ナビの不透明化</div></td>
+          <td><strong>開始:</strong> ホーム。実機Safari（iPhone）。<br><strong>タスク:</strong> 冷蔵庫にれんこんが残っています。れんこんを使う料理を探してください。</td>
+          <td>ホームの「家にある食材から。」かレシピ検索にれんこんを入力し、れんこんを使う料理が出る。受入: 入力欄をタップしても画面が勝手に拡大されない。画面下のナビが本文と重なって読めなくならない。</td>
+          <td><strong>観察:</strong> タップ時の画面の拡大の有無。スクロール中に下部ナビが本文を隠して困る場面。キーボード表示中のレイアウト崩れ。<br><strong>必要時のみ:</strong> （なし。観察のみ）</td>
+          <td><span class="risk-low">non-mutating</span><br>データの変更なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>B. 記録する（元に戻せる変更・端末内だけに保存）</h2>
+    <table>
+      <thead>
+        <tr><th>No.</th><th>開始状態・参加者タスク</th><th>成功条件・期待結果</th><th>観察点・中立プローブ</th><th>リスク・データ</th><th>結果</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="id">B-1</span><div class="source">今日／自分チェック（今回の変更: チェックボックス24px・行44px）</div></td>
+          <td><strong>開始:</strong> ホーム。<br><strong>タスク:</strong> 今日の自分の状態を、少し振り返ってみたくなりました。いまの体調や気分についての質問に答えて、それに合う料理を見てください。</td>
+          <td>「今日の自分を振り返る（6問）」を開き、指で選択肢を選んで料理の候補を見る。受入: 選択肢を1回のタップで選べる。回答は保存されない（再読み込みで消える）。</td>
+          <td><strong>観察:</strong> 押し間違い・二度押し。選んだ状態が見て分かるか。「診断」と受け取っていないか。<br><strong>必要時のみ:</strong> 「この質問は何のためのものだと感じましたか？」</td>
+          <td><span class="risk-medium">reversible-mutation</span><br>自由入力なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">B-2</span><div class="source">つくる→手帖／お気に入り</div></td>
+          <td><strong>開始:</strong> A-2の料理が分かる状態。<br><strong>タスク:</strong> A-2で見つけた料理を、また今度つくりたいと思いました。あとで見つけやすいように残しておき、残せたことを確かめてください。</td>
+          <td>しおりボタンで保存し、手帖の「保存したレシピ」に表示される。受入: 手帖のお気に入り件数が1増える。</td>
+          <td><strong>観察:</strong> しおりのアイコンの意味が伝わったか。保存の確認をどこで取ったか。<br><strong>必要時のみ:</strong> 「残せたかどうか、どこで分かりましたか？」</td>
+          <td><span class="risk-medium">reversible-mutation</span><br>自由入力なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">B-3</span><div class="source">つくる／献立づくり→買い物リスト</div></td>
+          <td><strong>開始:</strong> B-2の終了後。<br><strong>タスク:</strong> 週末に、ごはん・主菜・汁ものの献立を立てて買い物に行きます。2人分の献立を1つつくって名前を付け、買い物に必要なものを確かめてください。</td>
+          <td>「献立づくり」で3役以上を選び、2人分・名前を付けて保存し、材料を買い物リストへ送る。受入: 手帖の買い物リストに材料が合算されて並ぶ。</td>
+          <td><strong>観察:</strong> 役割（主食・主菜・副菜・汁物）の選び方の迷い。名前入力欄でのズーム。<br><strong>必要時のみ:</strong> 「いま何をしようとしていますか？」</td>
+          <td><span class="risk-medium">reversible-mutation</span><br>献立名は「UT-20260928-{run_id}-週末献立」</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">B-4</span><div class="source">料理詳細／調理モード→つくった記録</div></td>
+          <td><strong>開始:</strong> B-3の終了後。<br><strong>タスク:</strong> 実際にキッチンで、料理を1品つくる場面を想定します。B-2で残した料理を、手順を見ながらつくる流れを最後まで進めて、つくったことを記録してください。</td>
+          <td>調理モードで最後の工程まで進み、記録（日付・感想・またつくりたい）を保存する。受入: 手帖の「つくった記録」に1件増え、カレンダーのその日に表示される。</td>
+          <td><strong>観察:</strong> 工程の文字サイズ（調理中の距離で読めるか）。タイマーの使い方の理解。記録ボタンの見つけやすさ。<br><strong>必要時のみ:</strong> 「料理中にこの画面を見るとしたら、どう感じますか？」</td>
+          <td><span class="risk-medium">reversible-mutation</span><br>感想は「UT-20260928-{run_id}-感想」</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>C. 外に通信する・消す（実施直前に確認）</h2>
+    <table>
+      <thead>
+        <tr><th>No.</th><th>開始状態・参加者タスク</th><th>成功条件・期待結果</th><th>観察点・中立プローブ</th><th>リスク・データ</th><th>結果</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="id">C-1</span><div class="source">天気（Open-Meteo）</div></td>
+          <td><strong>開始:</strong> 任意の画面。実施前にモデレーターが「外部の天気サービスに通信する」ことを参加者に伝え、了承を得る。<br><strong>タスク:</strong> 今日の気温に合わせて、料理を考えたくなりました。今日の空模様に合った料理のヒントを見てください。</td>
+          <td>「空模様と食卓」から都市を選び、気温と料理のヒントが表示される。受入: 通信は操作した時だけ起き、失敗時は失敗の表示が出る。</td>
+          <td><strong>観察:</strong> 通信が発生することへの説明を読んだか。都市選びの迷い。<br><strong>必要時のみ:</strong> 「この機能で何が起きると思いましたか？」</td>
+          <td><span class="risk-high">irreversible-or-external-effect</span><br>自由入力なし</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+        <tr>
+          <td><span class="id">C-2</span><div class="source">手帖／バックアップ</div></td>
+          <td><strong>開始:</strong> B-4の終了後（記録が1件以上ある）。<br><strong>タスク:</strong> 機種変更の前に、手帖の中身を残しておきたいと思いました。手帖の中身をファイルとして残してください。</td>
+          <td>「手帖を書き出す」でJSONファイルを保存する。受入: ファイルが端末に保存され、中身に B-3・B-4 のテストデータが含まれる。</td>
+          <td><strong>観察:</strong> ファイルの保存先（Safariのダウンロード）を見つけられるか。「メモや感想が含まれる」の注意に気づいたか。<br><strong>必要時のみ:</strong> 「ファイルはどこに保存されたと思いますか？」</td>
+          <td><span class="risk-high">irreversible-or-external-effect</span><br>書き出したファイルはUT終了後に削除する（cleanup-plan に記載）</td>
+          <td>受入: ok / ng / blocked / skipped<br>観察: completed / completed-with-friction / failed / skipped</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>UT moderator view · v1 · 2026-09-28</footer>
+</main>
+</body>
+</html>

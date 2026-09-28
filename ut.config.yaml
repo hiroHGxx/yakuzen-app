@@ -1,0 +1,52 @@
+version: "2.0"
+project:
+  name: "季の膳 — KI NO ZEN"
+  type: "web-app"
+  root: "."
+
+test:
+  mode: "hybrid"
+  environment: "production"   # 公開プレビュー（GitHub Pages）。修理版の確認はローカルの preview（下の local_url）
+  base_url: "https://hirohgxx.github.io/yakuzen-app/"
+  local_url: "http://127.0.0.1:4174/yakuzen-app/"   # npm run build && npx vite preview --port 4174 --base /yakuzen-app/
+  participant_profile: "スマートフォンで日々の献立を考える、薬膳に関心はあるが専門知識はない一般の利用者"
+  participant_count: 1
+  moderator: "project-owner"
+  locale: "ja-JP"
+
+sources:
+  requirements: ["README.md", "docs/CONTENT-REVIEW.md"]
+  design: ["docs/REDESIGN.md", "docs/HANDOFF.md"]
+  change_sources: ["git", "manual"]
+  requirement_id_pattern: ""   # 要件IDは無い。画面名（今日／つくる／学ぶ／手帖）と機能名で追跡する
+
+artifacts:
+  root: "docs/ut"
+  format: "html"
+  create_participant_view: true
+  create_moderator_view: true
+
+execution:
+  order: ["non-mutating", "reversible-mutation", "irreversible-or-external-effect"]
+  allow_production_mutation: false   # サーバー側のデータは無い。変更は参加者の端末の localStorage だけ
+  require_confirmation_for_external_effects: true   # 天気（Open-Meteo への通信）が該当
+
+test_data:
+  enabled: true
+  prefix: "UT-{date}-{run_id}-"   # 料理メモ・献立名・買い物の自由入力に使う
+  cleanup: "assisted"   # 手帖の「手帖のデータを削除」か、ブラウザの別プロファイル／プライベートウィンドウを使う
+  require_baseline: true
+  require_dry_run: true
+  require_explicit_approval: true
+
+observation:
+  capture_task_time: false
+  capture_quotes: true
+  capture_screenshots: "optional"
+  anonymize_participants: true
+  recording: "disabled"
+
+analysis:
+  frameworks: ["nielsen-10", "impact-effect-efficiency-satisfaction", "ux-five-planes"]
+  root_issue_target: "3-8"
+  confidence_levels: ["high", "medium", "low"]
